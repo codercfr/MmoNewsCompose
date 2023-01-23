@@ -30,11 +30,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
@@ -111,6 +113,17 @@ fun MmoDetailScreen(
 
 }
 
+@Preview
+@Composable
+fun PreviewMmoDetailScreen() {
+    val navController = rememberNavController()
+    MmoDetailScreen(
+        dominant = Color.Green,
+        id = 1,
+        navController = navController
+    )
+}
+
 @Composable
 fun MmoDetailTopSection(
     navController: NavController,
@@ -181,6 +194,8 @@ fun MmoDetailSection(
     val pattern = "<[^>]*>".toRegex()
     val cleanedText = pattern.replace(mmoInfo.short_description, "")
     val spacedText = cleanedText.replace(".", "")
+    val spacedRequirements=mmoInfo.minimum_system_requirements.toString()
+    val requerementsToString = spacedRequirements.replace(",",",\n")
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -189,21 +204,23 @@ fun MmoDetailSection(
             .verticalScroll(scrollState)
     ) {
         Text(
-            text = "${mmoInfo.title.capitalize(Locale.ROOT)}",
+            text = "${mmoInfo.platform}",
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colors.onSurface
         )
-        Text(
-            text = "${mmoInfo.platform.capitalize(Locale.ROOT)}",
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.onSurface
-        )
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = spacedText,
             modifier = Modifier.padding(16.dp),
             style = TextStyle(textAlign = TextAlign.Left),
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colors.onSurface
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = requerementsToString,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colors.onSurface
@@ -223,7 +240,7 @@ fun ListScreenShots(
             .padding(16.dp)
     ) {
         for (i in mmoInfo.screenshots.indices) {
-            val model = mmoInfo.screenshots[i]
+            val model = mmoInfo.screenshots[i].image
             Box(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
