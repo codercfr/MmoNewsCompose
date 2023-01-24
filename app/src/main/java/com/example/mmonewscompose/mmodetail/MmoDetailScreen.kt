@@ -1,12 +1,8 @@
 package com.example.mmonews.mmodetail
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -15,41 +11,27 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
-import coil.compose.SubcomposeAsyncImageContent
-import coil.request.ImageRequest
-import com.example.mmonews.data.remote.response.ResponseApiItem
 import com.example.mmonews.data.remote.response.ResponseId
-import com.example.mmonews.data.remote.response.Screenshot
 import com.example.mmonews.util.Ressource
-import java.util.*
-import kotlin.math.round
 
 @Composable
 fun MmoDetailScreen(
@@ -81,19 +63,14 @@ fun MmoDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    top = topPadding + mmoImageSize / 2f,
+                    top = topPadding + mmoImageSize / 1.5f,
                     start = 16.dp,
                     end = 16.dp,
-                    bottom = 16.dp
                 )
                 .shadow(10.dp, RoundedCornerShape(10.dp))
                 .clip(RoundedCornerShape(10.dp))
                 .background(MaterialTheme.colors.surface)
-                .padding(16.dp)
-                .align(Alignment.BottomCenter),
-            loadingModifier = Modifier
-                .size(100.dp)
-                .align(Alignment.Center)
+
         )
 
         Box(contentAlignment = Alignment.TopCenter,
@@ -160,7 +137,7 @@ fun MmoDetailStateWraper(
             MmoDetailSection(
                 mmoInfo =mmoInfo.data!! ,
                 modifier = modifier
-                    .offset(y=(-20).dp)
+                    .offset(y=50.dp)
             )
         } is Ressource.Error->{
         Text(
@@ -183,7 +160,6 @@ fun MmoDetailSection(
     mmoInfo:ResponseId,
     modifier: Modifier = Modifier
 ) {
-    val scrollState = rememberScrollState()
     val pattern = "<[^>]*>".toRegex()
     val cleanedText = pattern.replace(mmoInfo.short_description, "")
     val spacedText = cleanedText.replace(".", "")
@@ -193,8 +169,8 @@ fun MmoDetailSection(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .offset(y = 100.dp)
-            .verticalScroll(scrollState)
+            .verticalScroll(rememberScrollState())
+
     ) {
         Text(
             text = "${mmoInfo.platform}",
@@ -212,7 +188,7 @@ fun MmoDetailSection(
             color = MaterialTheme.colors.onSurface
         )
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .background(
                     Brush.verticalGradient(
@@ -224,23 +200,54 @@ fun MmoDetailSection(
                 )
         ) {
             Text(
-                text = "Minimum System Requirements ",
+                text = "Minimum System Requirements :",
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
+                modifier=Modifier
+                    .align(CenterHorizontally),
                 color = MaterialTheme.colors.onSurface,
             )
             Text(
                 text = mmoInfo.minimum_system_requirements.graphics,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Left,
                 color = MaterialTheme.colors.onSurface,
                 style = TextStyle(fontSize = 15.sp),
             )
+            Text(
+                text = mmoInfo.minimum_system_requirements.os,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Left,
+                color = MaterialTheme.colors.onSurface,
+                style = TextStyle(fontSize = 15.sp),
+            )
+            Text(
+                text = mmoInfo.minimum_system_requirements.memory,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Left,
+                color = MaterialTheme.colors.onSurface,
+                style = TextStyle(fontSize = 15.sp),
+            )
+            Text(
+                text = mmoInfo.minimum_system_requirements.storage,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Left,
+                color = MaterialTheme.colors.onSurface,
+                style = TextStyle(fontSize = 15.sp),
+            )
+            Text(
+                text = mmoInfo.minimum_system_requirements.processor,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Left,
+                color = MaterialTheme.colors.onSurface,
+                style = TextStyle(fontSize = 15.sp),
+            )
+            Spacer(modifier = Modifier.height(15.dp))
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp)
+                .horizontalScroll(rememberScrollState())
+                .padding(top=10.dp)
         ) {
             for (i in mmoInfo.screenshots.indices) {
                 val model = mmoInfo.screenshots[i].image
@@ -248,12 +255,9 @@ fun MmoDetailSection(
                     model = model,
                     contentDescription = "screenshots",
                     modifier = Modifier
-                        .width(100.dp)
+                        .width(200.dp)
                         .align(alignment = CenterVertically)
                 )
-                if (i != mmoInfo.screenshots.size - 1) {
-                    Spacer(modifier = Modifier.width(10.dp))
-                }
             }
         }
         }
