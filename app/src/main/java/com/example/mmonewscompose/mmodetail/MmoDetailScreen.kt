@@ -17,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
@@ -28,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -113,16 +116,6 @@ fun MmoDetailScreen(
 
 }
 
-@Preview
-@Composable
-fun PreviewMmoDetailScreen() {
-    val navController = rememberNavController()
-    MmoDetailScreen(
-        dominant = Color.Green,
-        id = 1,
-        navController = navController
-    )
-}
 
 @Composable
 fun MmoDetailTopSection(
@@ -194,8 +187,8 @@ fun MmoDetailSection(
     val pattern = "<[^>]*>".toRegex()
     val cleanedText = pattern.replace(mmoInfo.short_description, "")
     val spacedText = cleanedText.replace(".", "")
-    val spacedRequirements=mmoInfo.minimum_system_requirements.toString()
-    val requerementsToString = spacedRequirements.replace(",",",\n")
+   /* val spacedRequirements=mmoInfo.minimum_system_requirements.toString()
+    val requerementsToString = spacedRequirements.replace(",",",\n")*/
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -218,43 +211,71 @@ fun MmoDetailSection(
             textAlign = TextAlign.Center,
             color = MaterialTheme.colors.onSurface
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = requerementsToString,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.onSurface
-        )
-
-        ListScreenShots(mmoInfo = mmoInfo)
-    }
-
-}
-@Composable
-fun ListScreenShots(
-    mmoInfo: ResponseId,
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .padding(16.dp)
-    ) {
-        for (i in mmoInfo.screenshots.indices) {
-            val model = mmoInfo.screenshots[i].image
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-            ) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Color.Transparent,
+                            Color.Black
+                        )
+                    )
+                )
+        ) {
+            Text(
+                text = "Minimum System Requirements ",
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onSurface,
+            )
+            Text(
+                text = mmoInfo.minimum_system_requirements.graphics,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onSurface,
+                style = TextStyle(fontSize = 15.sp),
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
+            for (i in mmoInfo.screenshots.indices) {
+                val model = mmoInfo.screenshots[i].image
                 AsyncImage(
                     model = model,
                     contentDescription = "screenshots",
                     modifier = Modifier
-                        .size(300.dp)
+                        .width(100.dp)
+                        .align(alignment = CenterVertically)
                 )
+                if (i != mmoInfo.screenshots.size - 1) {
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
             }
         }
+        }
     }
-}
+/*@Composable
+fun ListScreenShots(
+    mmoInfo: ResponseId,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        for (i in mmoInfo.screenshots.indices) {
+            val model = mmoInfo.screenshots[i].image
+            AsyncImage(
+                model = model,
+                contentDescription = "screenshots",
+                modifier = Modifier
+                    .size(200.dp)
+            )
+        }
+    }
+}*/
 
 @Composable
 fun MmoDetailDataItem(
