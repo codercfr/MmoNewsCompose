@@ -287,46 +287,109 @@ fun MmoAdditionalInformation(
 
     ) {
 
-
         Text(
             text = "Additional Information:",
             fontWeight = FontWeight.Bold,
         )
     }
     Row(
+
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp)
+            .padding(top = 10.dp),
 
     ) {
+
         Text(
+
             text = "Title",
             fontWeight = FontWeight.Bold,
-
         )
-        Spacer(Modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "Developer",
             fontWeight = FontWeight.Bold,
+            modifier = Modifier
+
 
         )
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+    ) {
 
+        Text(
+            text = mmoInfo.title,
+            )
+        Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = mmoInfo.developer,
+            )
+
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp),
+
+        ) {
+
+        Text(
+
+            text = "Publisher",
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "Release Date ",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+        )
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+    ) {
+        Text(
+            text = mmoInfo.publisher,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = mmoInfo.release_date,
+        )
 
     }
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(top = 10.dp),
+
+        ) {
+        Text(
+
+            text = "Genre",
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "Platform ",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+        )
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
     ) {
         Text(
-            text = mmoInfo.title,
-
-            )
-        Spacer(Modifier.weight(1f))
+            text = mmoInfo.genre,
+        )
+        Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = mmoInfo.developer,
-
-            )
-
+            text = mmoInfo.platform,
+        )
 
     }
 }

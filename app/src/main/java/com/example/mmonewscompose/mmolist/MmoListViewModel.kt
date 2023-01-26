@@ -8,6 +8,7 @@ import com.example.mmonews.repository.MmoRepository
 import com.example.mmonews.util.Constants.PAGE_SIZE
 import com.example.mmonews.util.Ressource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +31,33 @@ class MmoListViewModel @Inject constructor(private val repository: MmoRepository
 
     init {
         loadMmoPage()
+    }
+
+    fun searchMmoList(query:String){
+        val listToSearch = if(isSearchingStarting){
+            mmoList.value
+        }else{
+            cachedMmoList
+        }
+        //not in the current thead car trop long
+        viewModelScope.launch(Dispatchers.Default) {
+            if(query.isEmpty()){
+                mmoList.value = cachedMmoList
+                isSearching.value=false
+                isSearchingStarting = true
+                return@launch
+            }
+            val results = listToSearch.filter {
+                it.name.contains(query.trim(), ignoreCase = true) ||
+                        it.id.toString() == query.trim()
+            }
+            if(isSearchingStarting){
+               cachedMmoList = mmoList.value
+                isSearchingStarting=false
+            }
+            mmoList.value= results
+            isSearching.value=true
+        }
     }
 
     fun loadMmoPage() {

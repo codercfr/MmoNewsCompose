@@ -56,7 +56,7 @@ fun MmoListScreen(
                     .padding(16.dp)
 
             ){
-
+                viewModel.searchMmoList(it)
             }
             Spacer(modifier = Modifier.height(16.dp))
             MmoList(navController = navController)
