@@ -173,13 +173,6 @@ fun MmoDetailSection(
 
     ) {
         Text(
-            text = "${mmoInfo.platform}",
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.onSurface
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
             text = spacedText,
             modifier = Modifier.padding(16.dp),
             style = TextStyle(textAlign = TextAlign.Left),
@@ -187,6 +180,7 @@ fun MmoDetailSection(
             textAlign = TextAlign.Center,
             color = MaterialTheme.colors.onSurface
         )
+        MmoAdditionalInformation(mmoInfo = mmoInfo)
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -247,7 +241,7 @@ fun MmoDetailSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState())
-                .padding(top=10.dp)
+                .padding(top = 10.dp)
         ) {
             for (i in mmoInfo.screenshots.indices) {
                 val model = mmoInfo.screenshots[i].image
@@ -260,6 +254,7 @@ fun MmoDetailSection(
                 )
             }
         }
+
         }
     }
 /*@Composable
@@ -282,24 +277,57 @@ fun ListScreenShots(
 }*/
 
 @Composable
-fun MmoDetailDataItem(
-    dataValue: Float,
-    dataUnit: String,
-    dataIcon: Painter,
-    modifier: Modifier = Modifier
+fun MmoAdditionalInformation(
+    mmoInfo: ResponseId
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
+        horizontalAlignment = CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+
     ) {
-        Icon(painter = dataIcon, contentDescription = null, tint = Color.Black)
-        Spacer(modifier = Modifier.height(8.dp))
+
+
         Text(
-            text = "$dataValue$dataUnit",
-            color = Color.Black
+            text = "Additional Information:",
+            fontWeight = FontWeight.Bold,
+        )
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
+
+    ) {
+        Text(
+            text = "Title",
+            fontWeight = FontWeight.Bold,
 
         )
+        Spacer(Modifier.weight(1f))
+        Text(
+            text = "Developer",
+            fontWeight = FontWeight.Bold,
+
+        )
+
+
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = mmoInfo.title,
+
+            )
+        Spacer(Modifier.weight(1f))
+        Text(
+            text = mmoInfo.developer,
+
+            )
+
+
     }
 }
 
