@@ -193,7 +193,7 @@ fun MmoDetailSection(
                     )
                 )
         ) {
-            Text(
+            Text( 
                 text = "Minimum System Requirements :",
                 fontWeight = FontWeight.Bold,
                 modifier=Modifier
