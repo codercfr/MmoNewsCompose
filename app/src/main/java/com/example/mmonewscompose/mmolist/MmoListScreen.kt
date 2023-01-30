@@ -49,7 +49,7 @@ fun MmoListScreen(
     ) {
 
         Column {
-            Spacer(modifier = Modifier.heightIn(20.dp))
+            Spacer(modifier = Modifier.heightIn(50.dp))
             SearchBar(
                 hint="Search ",
                 modifier = Modifier

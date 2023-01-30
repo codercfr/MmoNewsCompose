@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -17,6 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -40,54 +42,55 @@ class MainActivity : ComponentActivity() {
             val scaffoldState = rememberScaffoldState()
             val scope = rememberCoroutineScope()
             MmoNewsTheme {
-                Scaffold(scaffoldState = scaffoldState,
-                    topBar = {
-                        com.example.mmonewscompose.nav.AppBar(
-                            onNavigationIconClick = {
-                                scope.launch {
-                                    scaffoldState.drawerState.open()
-                                }
-                            }
-                        )
-                    },
-                    drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
-                    drawerContent = {
-                        DrawerHeader()
-                        DrawerBody(items = listOf(
-                            MenuItem(
-                                id = "home",
-                                title = "Home",
-                                contentDescription = "Go to home screen",
-                                icon=Icons.Default.Home
-                            ),
-                            MenuItem(
-                                id = "settings",
-                                title = "Settings",
-                                contentDescription = "Go to settings",
-                                icon=Icons.Default.Settings
-                            ),
-                            MenuItem(
-                                id = "help",
-                                title = "Help",
-                                contentDescription = "Go to Help",
-                                icon=Icons.Default.Info
-                            ),
-
-                        ),
-                            onItemClick ={
-                                println("Clicked on ${it.title}")
-                            }
-                        )
-                    }
-                ) {
-
-                }
                 NavHost(
                     navController = navController,
                     startDestination = "mmo_list_screen"
                 ) {
                     composable("mmo_list_screen") {
                         MmoListScreen(navController = navController)
+                        Scaffold(scaffoldState = scaffoldState,
+                            modifier = Modifier.height(height = 50.dp),
+                            topBar = {
+                                com.example.mmonewscompose.nav.AppBar(
+                                    onNavigationIconClick = {
+                                        scope.launch {
+                                            scaffoldState.drawerState.open()
+                                        }
+                                    }
+                                )
+                            },
+                            drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+                            drawerContent = {
+                                DrawerHeader()
+                                DrawerBody(items = listOf(
+                                    MenuItem(
+                                        id = "home",
+                                        title = "Home",
+                                        contentDescription = "Go to home screen",
+                                        icon=Icons.Default.Home
+                                    ),
+                                    MenuItem(
+                                        id = "settings",
+                                        title = "Settings",
+                                        contentDescription = "Go to settings",
+                                        icon=Icons.Default.Settings
+                                    ),
+                                    MenuItem(
+                                        id = "help",
+                                        title = "Help",
+                                        contentDescription = "Go to Help",
+                                        icon=Icons.Default.Info
+                                    ),
+
+                                    ),
+                                    onItemClick ={
+                                        println("Clicked on ${it.title}")
+                                    }
+                                )
+                            }
+                        ) {
+
+                        }
                     }
                     composable(
                         "mmo_detail_screen/{dominantColor}/{mmoName}",
