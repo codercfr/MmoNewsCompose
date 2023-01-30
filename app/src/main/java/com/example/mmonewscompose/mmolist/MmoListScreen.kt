@@ -28,13 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.example.mmonews.data.remote.models.MmoListEntry
-
-
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -47,6 +47,7 @@ fun MmoListScreen(
         color = MaterialTheme.colors.background,
         modifier = Modifier.fillMaxSize()
     ) {
+
         Column {
             Spacer(modifier = Modifier.heightIn(20.dp))
             SearchBar(
@@ -270,3 +271,4 @@ fun RetrySection(
 
     }
 }
+
