@@ -39,8 +39,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            val scaffoldState = rememberScaffoldState()
-            val scope = rememberCoroutineScope()
             MmoNewsTheme {
                 NavHost(
                     navController = navController,
@@ -48,49 +46,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable("mmo_list_screen") {
                         MmoListScreen(navController = navController)
-                        Scaffold(scaffoldState = scaffoldState,
-                            modifier = Modifier.height(height = 50.dp),
-                            topBar = {
-                                com.example.mmonewscompose.nav.AppBar(
-                                    onNavigationIconClick = {
-                                        scope.launch {
-                                            scaffoldState.drawerState.open()
-                                        }
-                                    }
-                                )
-                            },
-                            drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
-                            drawerContent = {
-                                DrawerHeader()
-                                DrawerBody(items = listOf(
-                                    MenuItem(
-                                        id = "home",
-                                        title = "Home",
-                                        contentDescription = "Go to home screen",
-                                        icon=Icons.Default.Home
-                                    ),
-                                    MenuItem(
-                                        id = "settings",
-                                        title = "Settings",
-                                        contentDescription = "Go to settings",
-                                        icon=Icons.Default.Settings
-                                    ),
-                                    MenuItem(
-                                        id = "help",
-                                        title = "Help",
-                                        contentDescription = "Go to Help",
-                                        icon=Icons.Default.Info
-                                    ),
-
-                                    ),
-                                    onItemClick ={
-                                        println("Clicked on ${it.title}")
-                                    }
-                                )
-                            }
-                        ) {
-
-                        }
                     }
                     composable(
                         "mmo_detail_screen/{dominantColor}/{mmoName}",

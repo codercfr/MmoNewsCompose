@@ -9,6 +9,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -34,6 +39,10 @@ import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.example.mmonews.data.remote.models.MmoListEntry
+import com.example.mmonewscompose.nav.AppBar
+import com.example.mmonewscompose.nav.DrawerBody
+import com.example.mmonewscompose.nav.DrawerHeader
+import com.example.mmonewscompose.nav.MenuItem
 import kotlinx.coroutines.launch
 
 
@@ -47,8 +56,69 @@ fun MmoListScreen(
         color = MaterialTheme.colors.background,
         modifier = Modifier.fillMaxSize()
     ) {
-
         Column {
+            val scaffoldState = rememberScaffoldState()
+            val scope = rememberCoroutineScope()
+            var isDrawerOpen by remember {
+                mutableStateOf(false)
+            }
+
+            Scaffold(scaffoldState = scaffoldState,
+                modifier = Modifier
+                    .then(if(isDrawerOpen) Modifier.fillMaxSize()else Modifier.height(50.dp)),
+                topBar = {
+                    AppBar(
+
+                        onNavigationIconClick = {
+                            scope.launch {
+                                if(isDrawerOpen) {
+                                    scaffoldState.drawerState.close()
+                                    isDrawerOpen = false
+                                } else {
+                                    scaffoldState.drawerState.open()
+                                    isDrawerOpen = true
+                                }
+                            }
+                        }
+
+                    )
+                },
+                drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+                drawerContent = {
+                    DrawerHeader()
+                    DrawerBody(items = listOf(
+                        MenuItem(
+                            id = "home",
+                            title = "Home",
+                            contentDescription = "Go to home screen",
+                            icon=Icons.Default.Home
+                        ),
+                        MenuItem(
+                            id = "settings",
+                            title = "Settings",
+                            contentDescription = "Go to settings",
+                            icon=Icons.Default.Settings
+                        ),
+                        MenuItem(
+                            id = "help",
+                            title = "Help",
+                            contentDescription = "Go to Help",
+                            icon=Icons.Default.Info
+                        ),
+
+                        ),
+                        onItemClick ={
+                            println("Clicked on ${it.title}")
+                        }
+                    )
+                },
+            ) {
+
+            }
+            if (scaffoldState.drawerState.isClosed){
+                isDrawerOpen = false
+            }
+
             Spacer(modifier = Modifier.heightIn(50.dp))
             SearchBar(
                 hint="Search ",
