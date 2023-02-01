@@ -1,6 +1,6 @@
 package com.example.mmonews.mmolist
 
-import androidx.compose.foundation.Image
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,26 +24,27 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.example.mmonews.data.remote.models.MmoListEntry
+import com.example.mmonewscompose.MainActivity
 import com.example.mmonewscompose.nav.AppBar
 import com.example.mmonewscompose.nav.DrawerBody
 import com.example.mmonewscompose.nav.DrawerHeader
 import com.example.mmonewscompose.nav.MenuItem
 import kotlinx.coroutines.launch
+
 
 
 @Composable
@@ -59,19 +60,21 @@ fun MmoListScreen(
         Column {
             val scaffoldState = rememberScaffoldState()
             val scope = rememberCoroutineScope()
+            val context = LocalContext.current
             var isDrawerOpen by remember {
                 mutableStateOf(false)
             }
 
-            Scaffold(scaffoldState = scaffoldState,
+            Scaffold(
+                scaffoldState = scaffoldState,
                 modifier = Modifier
-                    .then(if(isDrawerOpen) Modifier.fillMaxSize()else Modifier.height(50.dp)),
+                    .then(if (isDrawerOpen) Modifier.fillMaxSize() else Modifier.height(50.dp)),
                 topBar = {
                     AppBar(
 
                         onNavigationIconClick = {
                             scope.launch {
-                                if(isDrawerOpen) {
+                                if (isDrawerOpen) {
                                     scaffoldState.drawerState.close()
                                     isDrawerOpen = false
                                 } else {
@@ -91,24 +94,27 @@ fun MmoListScreen(
                             id = "home",
                             title = "Home",
                             contentDescription = "Go to home screen",
-                            icon=Icons.Default.Home
+                            icon = Icons.Default.Home
                         ),
                         MenuItem(
                             id = "settings",
                             title = "Settings",
                             contentDescription = "Go to settings",
-                            icon=Icons.Default.Settings
+                            icon = Icons.Default.Settings
                         ),
                         MenuItem(
-                            id = "help",
-                            title = "Help",
-                            contentDescription = "Go to Help",
-                            icon=Icons.Default.Info
+                            id = "mmoNews",
+                            title = "mmoNews ",
+                            contentDescription = "Go to MmoNews",
+                            icon = Icons.Default.Info
                         ),
 
                         ),
-                        onItemClick ={
-                            println("Clicked on ${it.title}")
+                        onItemClick = {
+                            if (it.id == "mmoNews") {
+                                val intent = Intent(context, MainActivity::class.java)
+                                context.startActivity(intent)
+                            }
                         }
                     )
                 },
@@ -339,6 +345,15 @@ fun RetrySection(
             Text(text = "Retry")
         }
 
+    }
+}
+
+@Composable
+fun Navigation(navController: NavHostController) {
+    NavHost(navController, startDestination = "mmo_list_screen"){
+        composable("mmo_list_screen"){
+            MmoListScreen(navController = navController)
+        }
     }
 }
 
