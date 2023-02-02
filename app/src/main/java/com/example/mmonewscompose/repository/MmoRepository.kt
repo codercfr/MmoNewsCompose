@@ -5,6 +5,7 @@ import com.example.mmonews.data.remote.response.ResponseApi
 import com.example.mmonews.data.remote.response.ResponseApiItem
 import com.example.mmonews.data.remote.response.ResponseId
 import com.example.mmonews.util.Ressource
+import com.example.mmonewscompose.remote.response.news.NewsApi
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
@@ -23,6 +24,15 @@ class MmoRepository @Inject constructor(private val api:MmoApi) {
     suspend fun getMmoName(id:Int):Ressource<ResponseId>{
         val response= try {
             api.getMmoInfo(id)
+        }catch (e:java.lang.Exception){
+            return Ressource.Error("An error occured")
+        }
+        return Ressource.Succes(response)
+    }
+
+    suspend fun getMmoNews(id:Int):Ressource<NewsApi>{
+        val response= try {
+            api.getMmoNews(id)
         }catch (e:java.lang.Exception){
             return Ressource.Error("An error occured")
         }
