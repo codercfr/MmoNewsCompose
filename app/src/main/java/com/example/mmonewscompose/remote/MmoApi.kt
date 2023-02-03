@@ -24,6 +24,7 @@ interface MmoApi {
 
     @GET("latestnews")
     suspend fun getMmoNews(
-        @Query("id") id:Int
+        @Query("limit")limit:Int,
+        @Query("offset")offset:Int,
     ):NewsApi
 }

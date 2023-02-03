@@ -39,10 +39,10 @@ import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
 import com.example.mmonews.data.remote.models.MmoListEntry
 import com.example.mmonewscompose.MainActivity
-import com.example.mmonewscompose.nav.AppBar
-import com.example.mmonewscompose.nav.DrawerBody
-import com.example.mmonewscompose.nav.DrawerHeader
-import com.example.mmonewscompose.nav.MenuItem
+import com.example.mmonewscompose.mmolist.nav.AppBar
+import com.example.mmonewscompose.mmolist.nav.DrawerBody
+import com.example.mmonewscompose.mmolist.nav.DrawerHeader
+import com.example.mmonewscompose.mmolist.nav.MenuItem
 import kotlinx.coroutines.launch
 
 

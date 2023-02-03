@@ -30,9 +30,9 @@ class MmoRepository @Inject constructor(private val api:MmoApi) {
         return Ressource.Succes(response)
     }
 
-    suspend fun getMmoNews(id:Int):Ressource<NewsApi>{
+    suspend fun getMmoNews(limit:Int,offset:Int):Ressource<NewsApi>{
         val response= try {
-            api.getMmoNews(id)
+            api.getMmoNews(limit,offset)
         }catch (e:java.lang.Exception){
             return Ressource.Error("An error occured")
         }

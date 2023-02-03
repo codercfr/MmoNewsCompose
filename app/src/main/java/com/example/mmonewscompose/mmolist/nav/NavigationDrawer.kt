@@ -1,4 +1,4 @@
-package com.example.mmonewscompose.nav
+package com.example.mmonewscompose.mmolist.nav
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

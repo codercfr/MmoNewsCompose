@@ -27,9 +27,9 @@ import androidx.navigation.navArgument
 import com.example.mmonews.mmodetail.MmoDetailScreen
 import com.example.mmonews.mmolist.MmoListScreen
 import com.example.mmonews.ui.theme.MmoNewsTheme
-import com.example.mmonewscompose.nav.DrawerBody
-import com.example.mmonewscompose.nav.DrawerHeader
-import com.example.mmonewscompose.nav.MenuItem
+import com.example.mmonewscompose.mmolist.nav.DrawerBody
+import com.example.mmonewscompose.mmolist.nav.DrawerHeader
+import com.example.mmonewscompose.mmolist.nav.MenuItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

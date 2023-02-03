@@ -1,4 +1,4 @@
-package com.example.mmonewscompose.nav
+package com.example.mmonewscompose.mmolist.nav
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
