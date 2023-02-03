@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MmoNewsCompose"
         tools:targetApi="31">
+        <activity android:name="com.example.mmonewscompose.MmoNewsActivity">
+
+        </activity>
         <activity
             android:name="com.example.mmonewscompose.MainActivity"
             android:exported="true"

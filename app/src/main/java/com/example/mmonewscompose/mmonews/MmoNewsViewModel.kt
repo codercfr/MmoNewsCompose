@@ -27,7 +27,7 @@ class MmoNewsViewModel @Inject constructor(private val repository:MmoRepository)
         loadMmoNews()
     }
 
-    private fun loadMmoNews() {
+    fun loadMmoNews() {
 
       viewModelScope.launch {
           val result= repository.getMmoNews(PAGE_SIZE,currentpage* PAGE_SIZE)
