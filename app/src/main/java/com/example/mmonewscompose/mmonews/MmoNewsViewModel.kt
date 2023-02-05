@@ -39,7 +39,7 @@ class MmoNewsViewModel @Inject constructor(private val repository:MmoRepository)
                       result.data[currentpage].id,
                       result.data[currentpage].title,
                       result.data[currentpage].main_image,
-                      result.data[currentpage].article_content,
+                      result.data[currentpage].short_description,
                   )
                   currentpage++
                   isLoading.value=false

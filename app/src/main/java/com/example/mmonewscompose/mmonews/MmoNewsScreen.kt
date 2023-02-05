@@ -3,6 +3,7 @@ package com.example.mmonewscompose.mmonews
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -114,42 +115,39 @@ fun ListNewsScreen(
             if (scaffoldState.drawerState.isClosed){
                 isDrawerOpen = false
             }
-            ListNews(navController = navController)
+            ListNews()
         }
     }
 }
 
 @Composable
 fun ListNews(
-    navController: NavController,
     viewModel: MmoNewsViewModel = hiltViewModel()
 ) {
     val mmoListNews by remember {
         viewModel.mmoList
     }
-    val endReached by remember {
-        viewModel.endReached
-    }
+
     val loadError by remember {
         viewModel.loadError
     }
     val isLoading by remember {
         viewModel.isLoading
     }
+    val endReached by remember {
+        viewModel.endReached
+    }
 
     // reyclerview in jetPack
-    LazyColumn(contentPadding = PaddingValues(16.dp)){
-        val itemCount = if(mmoListNews.size % 2 ==0){
-            mmoListNews.size/2
-        }else{
-            mmoListNews.size/2 +1
-        }
-        items(itemCount){
-            if( it >= itemCount - 1&& !endReached && !isLoading){
-                viewModel.loadMmoNews()
+    LazyColumn(contentPadding = PaddingValues(15.dp)){
+            val itemCount= mmoListNews.size
+            items(itemCount){
+                if( it >= itemCount - 1&& !endReached && !isLoading){
+                    viewModel.loadMmoNews()
+                }
+                MmoRowNews(rowIndex = it, entries = mmoListNews)
             }
-            MmoRowNews(rowIndex = it, entries = mmoListNews)
-        }
+
     }
     Box(
         contentAlignment = Alignment.Center,
@@ -169,26 +167,24 @@ fun ListNews(
 @Composable
 fun MmoEntryNews(
     entry:NewsListEntry,
-    modifier: Modifier=Modifier,
 ){
     val defaultDominanColor = MaterialTheme.colors.surface
-
     Box(
         contentAlignment= Alignment.Center,
-        modifier = modifier
-            .shadow(5.dp, RoundedCornerShape(10.dp))
-            .clip(RoundedCornerShape(10.dp))
-            .aspectRatio(1f)
+        modifier = Modifier
+            .fillMaxSize()
             .background(
                 Brush.verticalGradient(
                     listOf(
-                        Color.Red,
+                        Color.LightGray,
                         defaultDominanColor
                     )
                 )
             )
     ){
-        Column() {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             SubcomposeAsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(entry.main_image)
@@ -204,18 +200,27 @@ fun MmoEntryNews(
                     SubcomposeAsyncImageContent()
                 },
                 modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.CenterHorizontally)
-            )
+                    .size(150.dp)
+                    .align(Alignment.Top)
 
+            )
+            Column() {
+                Text(
+                    text = entry.title,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                Text(
+                    text = entry.short,
+                    fontSize = 15.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
         }
-        Text(
-            text =entry.title,
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter))
     }
 }
 
@@ -227,25 +232,15 @@ fun MmoRowNews(
     entries: List<NewsListEntry>,
 ){
     Column() {
-        Row() {
-            MmoEntryNews(
-                entry =entries[rowIndex * 2 ] ,
-                modifier = Modifier.weight(1f)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            //si c'est le cas on a encore 2 entrées donc on sait qu'on peut encore ajouter 2
-            if(entries.size >=rowIndex * 2 + 2 ){
+        Row(
+
+        ) {
                 MmoEntryNews(
-                    entry = entries[rowIndex *2 +1],
-                    modifier = Modifier.weight(1f)
-                )
-            }else
-            {
-                Spacer(modifier =Modifier.weight(1f))
+                    entry = entries[rowIndex]
+                    )
             }
         }
-        Spacer(modifier =  Modifier.height(16.dp))
     }
-}
+
 
 
