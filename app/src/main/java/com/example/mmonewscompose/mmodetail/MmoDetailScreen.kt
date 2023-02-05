@@ -1,6 +1,8 @@
 package com.example.mmonews.mmodetail
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
@@ -19,7 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -170,7 +171,6 @@ fun MmoDetailSection(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-
     ) {
         Text(
             text = spacedText,
@@ -249,7 +249,7 @@ fun MmoDetailSection(
                     model = model,
                     contentDescription = "screenshots",
                     modifier = Modifier
-                        .width(200.dp)
+                        .height(200.dp)
                         .align(alignment = CenterVertically)
                 )
             }

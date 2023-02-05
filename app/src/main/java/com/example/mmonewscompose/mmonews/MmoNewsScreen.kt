@@ -1,36 +1,31 @@
 package com.example.mmonewscompose.mmonews
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
-import com.example.mmonews.data.remote.models.MmoListEntry
+import com.example.mmonews.R
 import com.example.mmonews.mmolist.*
 import com.example.mmonewscompose.MainActivity
 import com.example.mmonewscompose.mmolist.nav.AppBar
@@ -85,19 +80,19 @@ fun ListNewsScreen(
                             id = "home",
                             title = "Home",
                             contentDescription = "Go to home screen",
-                            icon = Icons.Default.Home
+                            icon = ContextCompat.getDrawable(context, R.drawable.home)!!
                         ),
                         MenuItem(
                             id = "settings",
                             title = "Settings",
                             contentDescription = "Go to settings",
-                            icon = Icons.Default.Settings
+                            icon = ContextCompat.getDrawable(context, R.drawable.settings)!!
                         ),
                         MenuItem(
                             id = "mmoNews",
                             title = "mmoNews ",
                             contentDescription = "Go to MmoNews",
-                            icon = Icons.Default.Info
+                            icon = ContextCompat.getDrawable(context, R.drawable.news)!!
                         ),
 
                         ),
@@ -177,7 +172,8 @@ fun MmoEntryNews(
                 Brush.verticalGradient(
                     listOf(
                         Color.LightGray,
-                        defaultDominanColor
+                        defaultDominanColor,
+                        Color.Black
                     )
                 )
             )

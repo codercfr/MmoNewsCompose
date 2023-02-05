@@ -28,17 +28,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
+import com.example.mmonews.R
 import com.example.mmonews.data.remote.models.MmoListEntry
-import com.example.mmonewscompose.MainActivity
 import com.example.mmonewscompose.MmoNewsActivity
 import com.example.mmonewscompose.mmolist.nav.AppBar
 import com.example.mmonewscompose.mmolist.nav.DrawerBody
@@ -95,19 +95,19 @@ fun MmoListScreen(
                             id = "home",
                             title = "Home",
                             contentDescription = "Go to home screen",
-                            icon = Icons.Default.Home
+                            icon = ContextCompat.getDrawable(context, R.drawable.home)!!
                         ),
                         MenuItem(
                             id = "settings",
                             title = "Settings",
                             contentDescription = "Go to settings",
-                            icon = Icons.Default.Settings
+                            icon = ContextCompat.getDrawable(context, R.drawable.settings)!!
                         ),
                         MenuItem(
                             id = "mmoNews",
                             title = "mmoNews ",
                             contentDescription = "Go to MmoNews",
-                            icon = Icons.Default.Info
+                            icon = ContextCompat.getDrawable(context, R.drawable.news)!!
                         ),
 
                         ),
